@@ -15,6 +15,7 @@ const blogSchema = new mongoose.Schema({
     type: String,
     minlength: [20, 'Description must be at least 20 or more characters'],
     maxlength: [2000, 'Description must be less than 2000 characters'],
+    required: true,
   },
   location: {
     type: {
@@ -31,6 +32,11 @@ const blogSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now,
+  },
+  publisher: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
   },
 })
 
