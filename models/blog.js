@@ -1,31 +1,31 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose")
 
 const blogSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
-    maxlength: [100, 'Title must be less than 100 characters'],
-    minlength: [5, 'Title must be at least 5 or more characters'],
+    maxlength: [100, "Title must be less than 100 characters"],
+    minlength: [5, "Title must be at least 5 or more characters"],
   },
   photo: {
     type: String,
-    default:"not-upload"
+    default: "not-upload",
   },
   description: {
     type: String,
-    minlength: [20, 'Description must be at least 20 or more characters'],
-    maxlength: [2000, 'Description must be less than 2000 characters'],
+    minlength: [20, "Description must be at least 20 or more characters"],
+    maxlength: [2000, "Description must be less than 2000 characters"],
     required: true,
   },
   location: {
     type: {
       type: String,
-      enum: ['Point'],
+      enum: ["Point"],
       //   required: true
     },
     coordinates: {
       type: [Number],
-      index: '2dsphere',
+      index: "2dsphere",
       //   required: true
     },
   },
@@ -35,11 +35,11 @@ const blogSchema = new mongoose.Schema({
   },
   publisher: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: "User",
     required: true,
   },
 })
 
-const blogModel = mongoose.model('blog', blogSchema)
+const blogModel = mongoose.model("blog", blogSchema)
 
 module.exports = { blogSchema, blogModel }
