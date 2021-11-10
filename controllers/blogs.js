@@ -1,7 +1,9 @@
 const { blogModel } = require("../models/blog")
-// get all the blogs (Get method)
+const ErrorResponse = require("../utils/errorsResponse")
+const tryCatchHandler = require("../middleware/tryCatchHandler")
+// get all the blogs
 // @route /api/bloogy/blogs
-exports.getBlogs = async (req, res, next) => {
+exports.getBlogs = tryCatchHandler(async (req, res, next) => {
   const blogs = await blogModel.find()
   if (!blogs) {
     return res.status(404).send("no blogs found")
@@ -10,44 +12,46 @@ exports.getBlogs = async (req, res, next) => {
     numbOfBlogs: blogs.length,
     blogs: blogs,
   })
-}
-// get a specific blog (Get method)
+})
+// get a specific blog 
 // @route /api/bloogy/blogs/:id
-exports.getBlog = async (req, res, next) => {
-  try {
-    const blog = await blogModel.findById(req.params.id)
-    if (!blog) {
-      return res.status(404).send("blog not found")
-    }
-    res.status(200).send(blog)
-  } catch (error) {
-    res.status(404).send(error.message)
+exports.getBlog = tryCatchHandler(async (req, res, next) => {
+  const blog = await blogModel.findById(req.params.id)
+  if (!blog) {
+    return next(
+      new ErrorResponse(`blog not found with id of ${req.params.id}`, 404)
+    )
   }
-}
-// create a blog (Post method)
+  res.status(200).send(blog)
+})
+// create a blog 
 // @route /api/bloogy/blogs
-exports.createBlog = async (req, res, next) => {
-  const newBlog = await blogModel.create({ title: req.body.title })
+exports.createBlog = tryCatchHandler(async (req, res, next) => {
+  const newBlog = await blogModel.create(req.body)
   res.status(201).send(newBlog)
-}
-// modify a blog (Put method)
+})
+// modify a blog 
 // @route /api/bloogy/blogs/:id
-exports.editBlog = async (req, res, next) => {
+exports.editBlog = tryCatchHandler(async (req, res, next) => {
   const blog = await blogModel.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
   })
   if (!blog) {
-    return res.status(404).send("blog not found")
+    return next(
+      new ErrorResponse(`blog not found with id of ${req.params.id}`, 404)
+    )
   }
   res.status(200).send(blog)
-}
-// delete a blog (Delete method)
+})
+// delete a blog
 // @route /api/bloogy/blogs/:id
-exports.deleteBlog = async (req, res, next) => {
+exports.deleteBlog = tryCatchHandler(async (req, res, next) => {
   const blog = await blogModel.findByIdAndDelete(req.params.id)
   if (!blog) {
-    return res.status(404).send("blog not found:it may be already deleted")
+    return next(
+      new ErrorResponse(`blog not found with id of ${req.params.id}`, 404)
+    )
   }
   res.status(200).send(blog)
-}
+})

@@ -3,9 +3,10 @@ const mongoose = require("mongoose")
 const blogSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: true,
+    required: [true, "Title is required"],
     maxlength: [100, "Title must be less than 100 characters"],
     minlength: [5, "Title must be at least 5 or more characters"],
+    unique: [true, "title must be unique"],
   },
   photo: {
     type: String,
@@ -15,7 +16,8 @@ const blogSchema = new mongoose.Schema({
     type: String,
     minlength: [20, "Description must be at least 20 or more characters"],
     maxlength: [2000, "Description must be less than 2000 characters"],
-    required: true,
+    required: [true, "Description is required"],
+    unique: [true, "Description must be unique"],
   },
   location: {
     type: {
@@ -33,11 +35,12 @@ const blogSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  publisher: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
+
+  // publisher: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: "User",
+  //   required: true,
+  // },
 })
 
 const blogModel = mongoose.model("blog", blogSchema)

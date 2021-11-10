@@ -14,10 +14,10 @@ const blogs = require("./routes/blogs")
 app.use(express.json())
 
 // mount the route
-app.use(errorHandler)
+
 
 app.use("/api/bloogy", blogs)
-
+app.use(errorHandler)
 // app listening
 const PORT = process.env.PORT || 5000
 app.listen(PORT, console.log("app listening on port " + PORT))
