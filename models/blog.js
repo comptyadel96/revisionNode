@@ -1,5 +1,4 @@
 const mongoose = require("mongoose")
-
 const blogSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -36,12 +35,15 @@ const blogSchema = new mongoose.Schema({
     default: Date.now,
   },
 
-  // publisher: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: "User",
-  //   required: true,
-  // },
+  publisher: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
 })
+
+// Schema indexes
+blogSchema.index({ title: "text", description: "text" })
 
 const blogModel = mongoose.model("blog", blogSchema)
 
