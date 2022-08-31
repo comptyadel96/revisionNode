@@ -2,11 +2,16 @@ const mongoose = require("mongoose")
 
 const userSchema = new mongoose.Schema(
   {
-    googleId: {
+    userId: {
       type: String,
     },
     name: {
       type: String,
+      required: true,
+    },
+    authProvider: {
+      type: String,
+      enum: ["google", "facebook"],
       required: true,
     },
     email: {
@@ -24,7 +29,12 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    phoneNumber: {
+      type: String,
+      min: [10, "le numéro de téléphone doit contenir aumoins 10 nombres"],
+    },
   },
+
   { timestamps: true }
 )
 

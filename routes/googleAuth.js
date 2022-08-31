@@ -19,18 +19,20 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:5000/api/bloogy/auth/google/callback",
+      callbackURL: "http://localhost:5000/api/shirty/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, cb) => {
-      let currentUser = await userModal.findOne({ googleId: profile.id })
+      let currentUser = await userModal.findOne({ userId: profile.id })
       // check if user exists in db or not if not create new user and save to db else return user from db to passport
       if (currentUser) {
         return cb(null, currentUser)
       } else {
+        console.log(profile)
         const newUser = await userModal.create({
-          googleId: profile.id,
+          userId: profile.id,
           name: profile.displayName,
           email: profile.emails[0].value,
+          authProvider: "google",
           profilPicture: profile.photos[0].value,
         })
         cb(null, newUser)
@@ -39,33 +41,37 @@ passport.use(
   )
 )
 router.get(
-  "/google",
+  "/",
   passport.authenticate("google", {
     scope: ["profile", "email"],
   })
 )
 // handling the callback after google has authenticated the user
-router.get("/google/callback", passport.authenticate("google"), (req, res) => {
-  console.log(req.user)
-  res.send("succesfully redirected")
+router.get(
+  "/callback",
+  passport.authenticate("google", {
+    successRedirect: "http://localhost:3000/profile",
+  }),
+  (req, res) => {
+    console.log(req.user)
+    res.send(req.user)
+  }
+)
+//  route for successful logins
+router.get("/login/success", (req, res) => {
+  if (req.user) {
+    res.status(200).send(req.user)
+  } else {
+    res.status(404).send("no user connected with google account")
+  }
 })
 
-// test authentication with google strategy and passport
-router.get("/current-user", async (req, res) => {
-  console.log(req.user)
-  res.send(req.user)
-})
 // logout user from google strategy
 router.get("/logout", (req, res) => {
   req.logout()
-  res.send("logout")
-})
-router.get("/test", (req, res) => {
-  if (req.isAuthenticated()) {
-    res.send("user is authenticated")
-  } else {
-    res.send("user is not authenticated")
-  }
+  req.session = null;
+  res.redirect("http://localhost:3000/login")
+  res.send("logout with success")
 })
 
 module.exports = router
