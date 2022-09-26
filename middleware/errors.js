@@ -14,9 +14,9 @@ const errorHandler = (err, req, res, next) => {
   if (err.code === 11000) {
     const { title, description } = error.keyValue
     if (title && !description) {
-      customMessage = `title: ${title} already exists`
+      customMessage = `le titre: ${title} existe déja`
     } else if (!title && description) {
-      customMessage = `description: ${description} already exists`
+      customMessage = `la description: ${description} existe déja veuillez choisir une autre`
     }
 
     error = new ErrorResponse(customMessage, 400)

@@ -1,14 +1,14 @@
 const router = require("express").Router()
+const {
+  getpolos,
+  getpolo,
+  createpolo,
+  editpolo,
+  deletepolo,
+} = require("../controllers/polos")
 const { isAuthentificated } = require("../middleware/authProtection")
 const multer = require("multer")
 
-const {
-  getshirts,
-  getshirt,
-  createshirt,
-  deleteshirt,
-  editshirt,
-} = require("../controllers/shirts")
 //upload image with multer
 const uploader = multer({
   limits: {
@@ -24,15 +24,18 @@ const uploader = multer({
     }
     cb(undefined, true)
   },
-}).single("shirtTof")
+}).single("poloTof")
 
-// Public routes
-router.route("/shirts").get(getshirts).post(uploader, createshirt)
-// Private routes (need authentification)
+// public routes
+router.route("/polos").get(getpolos).post(
+  // isAuthentificated,
+  uploader,
+  createpolo
+)
+// protected routes (need authentification)
 router
-  .route("/shirts/:id")
-  .get(getshirt)
-  .put(isAuthentificated, editshirt)
-  .delete(deleteshirt)
-
+  .route("/polos/:id")
+  .get(getpolo)
+  .put(isAuthentificated, editpolo)
+  .delete(deletepolo)
 module.exports = router

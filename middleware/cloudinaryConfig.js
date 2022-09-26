@@ -1,4 +1,4 @@
-const { config, uploader } = require("cloudinary") // import cloudinary functions
+const { config, uploader } = require("cloudinary").v2 // import cloudinary functions
 
 // Configure cloudinary with your own account details and environment variables
 // open free account at https://cloudinary.com/

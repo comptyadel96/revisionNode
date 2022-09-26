@@ -53,7 +53,7 @@ router.get(
   (req, res) => {
     if (req.user) {
       res.status(200).send(req.user)
-      // console.log(req.user)
+      
     } else {
       res.status(404).send("no user connected")
     }
@@ -74,12 +74,5 @@ router.get("/logout", (req, res) => {
   res.redirect("http://localhost:3000/login")
   res.send("logout with success")
 })
-// router.get("/isAuthenticated", (req, res) => {
-//   if (req.isAuthenticated()) {
-//     res.send("user is authenticated")
-//   } else {
-//     res.send("user is not authenticated")
-//   }
-// })
 
 module.exports = router

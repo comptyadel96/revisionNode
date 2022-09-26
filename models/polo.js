@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-const shirtSchema = new mongoose.Schema({
+const polloSchema = new mongoose.Schema({
   title: {
     type: String,
     required: [true, "vous devez attribuer un titre a votre article"],
@@ -22,10 +22,7 @@ const shirtSchema = new mongoose.Schema({
   },
   couleur: {
     type: String,
-    required: [
-      true,
-      "veuillez spécifier la couleur du t-shirt s'il vous plait",
-    ],
+    required: [true, "veuillez spécifier la couleur du pollo s'il vous plait"],
     enum: [
       "Noir",
       "Blanc",
@@ -42,14 +39,7 @@ const shirtSchema = new mongoose.Schema({
   },
   tags: {
     type: [String],
-    default: [
-      "demi manche",
-      "t-shirt",
-      "pull",
-      "polo",
-      "sans manche",
-      "manche courte",
-    ],
+    default: ["demi manche", "pollo", "pull"],
   },
   sexe: {
     type: String,
@@ -84,8 +74,8 @@ const shirtSchema = new mongoose.Schema({
 })
 
 // Schema indexes
-shirtSchema.index({ title: "text", description: "text", tags: "text" })
+polloSchema.index({ title: "text", description: "text", tags: "text" })
 
-const shirtModel = mongoose.model("shirt", shirtSchema)
+const polloModel = mongoose.model("pollo", polloSchema)
 
-module.exports = { shirtSchema, shirtModel }
+module.exports = { polloSchema, polloModel }

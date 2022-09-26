@@ -1,31 +1,31 @@
 const mongoose = require("mongoose")
-const shirtSchema = new mongoose.Schema({
+const sweatSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: [true, "vous devez attribuer un titre a votre article"],
+    // required: [true, "vous devez attribuer un titre a votre article"],
     maxlength: [100, "Le titre ne doit pas dépasser 100 lettres"],
     minlength: [5, "Le titre doit contenir aumoins 5 lettre ou plus"],
-    unique: [true, "Ce titre a déja été choisi veuillez choisir un autre"],
+    // unique: [true, "Ce titre a déja été choisi veuillez choisir un autre"],
   },
   image: String,
   description: {
     type: String,
     minlength: [10, "La Description doit contenir aumoins 10 characters"],
     maxlength: [2000, "La Description ne doit pas dépasser 2000 characters"],
-    required: [true, "Vous devez attribuer une Description  à votre article"],
+    // required: [true, "Vous devez attribuer une Description  à votre article"],
   },
   prix: {
     type: String,
     minlength: [3, "Le prix doit contenir aumoins 3 chiffres"],
-    maxlength: [5, "La prix ne doit pas dépasser 5 chiffres"],
-    required: [true, "Vous devez attribuer un prix  à votre article"],
+    maxlength: [5, "La Description ne doit pas dépasser 5 chiffres"],
+    // required: [true, "Vous devez attribuer un prix  à votre article"],
   },
   couleur: {
     type: String,
-    required: [
-      true,
-      "veuillez spécifier la couleur du t-shirt s'il vous plait",
-    ],
+    // required: [
+    //   true,
+    //   "veuillez spécifier la couleur du sweat  s'il vous plait",
+    // ],
     enum: [
       "Noir",
       "Blanc",
@@ -43,21 +43,21 @@ const shirtSchema = new mongoose.Schema({
   tags: {
     type: [String],
     default: [
-      "demi manche",
-      "t-shirt",
-      "pull",
-      "polo",
-      "sans manche",
-      "manche courte",
+      "manche longue",
+      "capuche",
+      "sans capuche",
+      "sweat",
+      "sweat-shirt",
+      "sweat shirt",
     ],
-  },
-  sexe: {
-    type: String,
-    enum: ["homme", "femme", "enfant"],
   },
   note: {
     type: [String],
     default: [],
+  },
+  sexe: {
+    type: String,
+    enum: ["homme", "femme", "enfant"],
   },
   location: {
     type: {
@@ -75,17 +75,12 @@ const shirtSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-
   // publisher: {
   //   type: mongoose.Schema.Types.ObjectId,
   //   ref: "User",
   //   required: true,
   // },
 })
-
-// Schema indexes
-shirtSchema.index({ title: "text", description: "text", tags: "text" })
-
-const shirtModel = mongoose.model("shirt", shirtSchema)
-
-module.exports = { shirtSchema, shirtModel }
+sweatSchema.index({ title: "text", description: "text", tags: "text" })
+const sweatModel = mongoose.model("Sweats", sweatSchema)
+module.exports = { sweatModel, sweatSchema }

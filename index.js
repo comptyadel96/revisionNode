@@ -17,7 +17,7 @@ const shirts = require("./routes/shirts")
 const auth = require("./routes/googleAuth")
 const facebookAuth = require("./routes/facebookAuth")
 const adminShirt = require("./routes/adminShirt")
-const clipart = require("./routes/cliparts")
+const sweat = require("./routes/sweats")
 
 // use cookie session to store the session in the browser
 app.use(
@@ -70,7 +70,7 @@ app.use("/api/shirty/auth/facebook", facebookAuth) // mount the facebook auth ro
 // mount the routes
 app.use("/api/shirty", shirts)
 app.use("/api/admin", adminShirt)
-app.use("/api/shirty/clipart", clipart)
+app.use("/api/shirty", sweat)
 app.use(errorHandler)
 // app listening
 const PORT = process.env.PORT || 5000
